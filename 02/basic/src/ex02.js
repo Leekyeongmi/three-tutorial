@@ -16,6 +16,9 @@ export default function example() {
   // const renderer = new THREE.WebGLRenderer({ canvas: canvas }); 축약형으로 아래와 같이 쓰는 것도 가능하다.
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true }); // 성능저하가 있을 수 있지만, 그래픽이 계단식으로 깨져 보이는 걸 보완하는 속성
   renderer.setSize(window.innerWidth, window.innerHeight);
+  // console.log(window.devicePixelRatio); 2: 100px이미지를 표현할 때 200px를 쓴다.
+  // 캔버스의 크기 자체는 2배가 되고 style 속성에 width, height는 절반의 값이 되어 고밀도로 보여지게 된다.
+  renderer.setPixelRatio(window.devicePixelRatio > 1 ? 2 : 1); // 성능 최적화를 위해 최댓값을 2로 적용한다. 그래도 충분하기 때문.
 
   //! Scene
   const scene = new THREE.Scene();
@@ -67,4 +70,13 @@ export default function example() {
 
   //! 그리기
   renderer.render(scene, camera);
+
+  function setSize() {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.render(scene, camera);
+  }
+  //! 이벤트
+  window.addEventListener('resize', setSize); // 윈도우 창의 크기가 변하면 setSize 함수를 호출한다.
 }
