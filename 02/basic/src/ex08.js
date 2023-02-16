@@ -44,7 +44,6 @@ export default function example() {
   scene.add(mesh);
 
   //! 그리기
-
   function draw() {
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw); // 이 코드를 삭제했더니 gsap 동작을 안 한다. gsap는 requestAnimationFrame과 독립적이라고 했던 것 같은데 말이다.
