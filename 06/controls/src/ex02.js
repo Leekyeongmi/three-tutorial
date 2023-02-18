@@ -29,7 +29,6 @@ export default function example() {
   camera.position.y = 1.5;
   camera.position.z = 10;
   scene.add(camera);
-  camera.lookAt(0, 0, 0);
 
   // Light
   const ambientLight = new THREE.AmbientLight('white', 0.5);
