@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
+import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls';
 
-// ----- 주제: TrackballControls
+// ----- 주제: FirstPersonControls
 
 export default function example() {
   // Renderer
@@ -37,7 +37,11 @@ export default function example() {
   scene.add(directionalLight);
 
   // Controls
-  const controls = new TrackballControls(camera, renderer.domElement);
+  const controls = new FirstPersonControls(camera, renderer.domElement);
+  // controls.movementSpeed = 10;
+  controls.activeLook = false; // 마우스를 움직여도 고정으로 둘러볼 수 없다.
+  // controls.autoForward = true;
+  // controls.lookSpeed = 0.1;
 
   // Mesh
   const geometry = new THREE.SphereGeometry(2, 32, 32);
@@ -63,8 +67,6 @@ export default function example() {
   }
   scene.add(group1);
 
-  // scene.add(mesh);
-
   // 그리기
   const clock = new THREE.Clock();
 
@@ -73,7 +75,7 @@ export default function example() {
     group1.rotation.y += delta * 0.01;
     group1.rotation.x += delta * 0.01;
     group1.rotation.z += delta * 0.01;
-    controls.update();
+    controls.update(delta);
 
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);

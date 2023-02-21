@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { TrackballControls } from 'three/examples/jsm/controls/TrackballControls';
+import { FlyControls } from 'three/examples/jsm/controls/FlyControls';
 
-// ----- 주제: TrackballControls
+// ----- 주제: FlyControls
 
 export default function example() {
   // Renderer
@@ -37,7 +37,10 @@ export default function example() {
   scene.add(directionalLight);
 
   // Controls
-  const controls = new TrackballControls(camera, renderer.domElement);
+  const controls = new FlyControls(camera, renderer.domElement);
+  controls.rollSpeed = 0.1;
+  // controls.movementSpeed = 2;
+  controls.dragToLook = true;
 
   // Mesh
   const geometry = new THREE.SphereGeometry(2, 32, 32);
@@ -63,8 +66,6 @@ export default function example() {
   }
   scene.add(group1);
 
-  // scene.add(mesh);
-
   // 그리기
   const clock = new THREE.Clock();
 
@@ -73,7 +74,7 @@ export default function example() {
     group1.rotation.y += delta * 0.01;
     group1.rotation.x += delta * 0.01;
     group1.rotation.z += delta * 0.01;
-    controls.update();
+    controls.update(delta);
 
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);
