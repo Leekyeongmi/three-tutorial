@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls';
+import { DragControls } from 'three/examples/jsm/controls/DragControls';
 
-// ----- 주제: FirstPersonControls
+// ----- 주제: DragControls
 
 export default function example() {
   // Renderer
@@ -23,7 +23,8 @@ export default function example() {
     0.1,
     1000
   );
-  camera.position.y = 1.5;
+  camera.position.y = 1;
+  camera.position.x = 1;
   camera.position.z = 10;
   scene.add(camera);
 
@@ -36,19 +37,12 @@ export default function example() {
   directionalLight.position.z = 2;
   scene.add(directionalLight);
 
-  // Controls
-  const controls = new FirstPersonControls(camera, renderer.domElement);
-  // controls.movementSpeed = 10;
-  controls.activeLook = false;
-  // controls.autoForward = true;
-  // controls.lookSpeed = 0.1;
-
   // Mesh
-  const geometry = new THREE.SphereGeometry(2, 32, 32);
+  const geometry = new THREE.BoxGeometry(1, 1, 1);
 
   let mesh;
   let material;
-  const group1 = new THREE.Group();
+  const meshes = [];
   for (let i = 0; i < 20; i++) {
     material = new THREE.MeshStandardMaterial({
       side: THREE.DoubleSide,
@@ -62,21 +56,22 @@ export default function example() {
     mesh.position.x = (Math.random() - 0.5) * 10;
     mesh.position.y = (Math.random() - 0.5) * 10;
     mesh.position.z = (Math.random() - 0.5) * 10;
-
-    group1.add(mesh);
+    mesh.name = `box-${i}`;
+    scene.add(mesh);
+    meshes.push(mesh);
   }
-  scene.add(group1);
+
+  // Controls
+  const controls = new DragControls(meshes, camera, renderer.domElement);
+  controls.addEventListener('dragstart', (e) => {
+    console.log(e.object.name);
+  });
 
   // 그리기
   const clock = new THREE.Clock();
 
   function draw() {
     const delta = clock.getDelta();
-    group1.rotation.y += delta * 0.01;
-    group1.rotation.x += delta * 0.01;
-    group1.rotation.z += delta * 0.01;
-    controls.update(delta);
-
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);
   }

@@ -1,7 +1,7 @@
 import * as THREE from 'three';
-import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls';
+import { PointerLockControls } from 'three/examples/jsm/controls/PointerLockControls';
 
-// ----- 주제: FirstPersonControls
+// ----- 주제: PointerLockControls
 
 export default function example() {
   // Renderer
@@ -37,14 +37,23 @@ export default function example() {
   scene.add(directionalLight);
 
   // Controls
-  const controls = new FirstPersonControls(camera, renderer.domElement);
-  // controls.movementSpeed = 10;
-  controls.activeLook = false;
-  // controls.autoForward = true;
-  // controls.lookSpeed = 0.1;
+  const controls = new PointerLockControls(camera, renderer.domElement);
+  // console.log(controls.domElement === renderer.domElement); // true canvas 객체
+
+  controls.domElement.addEventListener('click', () => {
+    controls.lock();
+  });
+
+  controls.addEventListener('lock', () => {
+    console.log('lock!');
+  });
+
+  controls.addEventListener('unlock', () => {
+    console.log('unlock!');
+  });
 
   // Mesh
-  const geometry = new THREE.SphereGeometry(2, 32, 32);
+  const geometry = new THREE.BoxGeometry(1, 1, 1);
 
   let mesh;
   let material;
@@ -72,10 +81,10 @@ export default function example() {
 
   function draw() {
     const delta = clock.getDelta();
-    group1.rotation.y += delta * 0.01;
-    group1.rotation.x += delta * 0.01;
-    group1.rotation.z += delta * 0.01;
-    controls.update(delta);
+    // group1.rotation.y += delta * 0.01;
+    // group1.rotation.x += delta * 0.01;
+    // group1.rotation.z += delta * 0.01;
+    // controls.update(delta);
 
     renderer.render(scene, camera);
     renderer.setAnimationLoop(draw);
