@@ -15,6 +15,7 @@ export default function example() {
 
   // Scene
   const scene = new THREE.Scene();
+  scene.background = new THREE.Color('white');
 
   // Camera
   const camera = new THREE.PerspectiveCamera(
@@ -29,12 +30,9 @@ export default function example() {
 
   // Light
   const ambientLight = new THREE.AmbientLight('white', 0.5);
-  scene.add(ambientLight);
-
   const directionalLight = new THREE.DirectionalLight('white', 1);
-  directionalLight.position.x = 1;
-  directionalLight.position.z = 2;
-  scene.add(directionalLight);
+  directionalLight.position.set(1, 0, 2);
+  scene.add(ambientLight, directionalLight);
 
   // Controls
   const controls = new OrbitControls(camera, renderer.domElement);
@@ -42,9 +40,12 @@ export default function example() {
   // Mesh
   const geometry = new THREE.SphereGeometry(1, 16, 16);
   const material1 = new THREE.MeshLambertMaterial({
-    color: 'seagreen'
+    color: 'orange'
   });
-  const material2 = new THREE.MeshPhongMaterial({ color: seagreen });
+  const material2 = new THREE.MeshPhongMaterial({
+    color: 'orange',
+    shininess: 1000
+  });
   const mesh1 = new THREE.Mesh(geometry, material1);
   const mesh2 = new THREE.Mesh(geometry, material2);
   mesh1.position.x = -1.5;

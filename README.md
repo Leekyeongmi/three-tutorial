@@ -188,3 +188,5 @@ CRA/next.js라는 프레임워크 위에서 웹팩 설정을 따로 하지 않�
 - 카메라 컨트롤(OrbitControls)을 추가하니 자동으로 `camera.lookAt()`이 적용되었다.
 
 ## MeshLambertMateria vs MeshPhongMaterial
+- `Lambert`는 하이라이트, 반사광이 없는 재질이고 `Phong`은 있는 재질이다. 탁구공과 당구공을 비교해보면 된다.
+- Phong은 `shininess` 정도를 숫자로 조절할 수 있다. 만약에 값을 `0`으로 하면 Lambert와 동일해진다.
