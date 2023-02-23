@@ -149,3 +149,42 @@ CRA/next.js라는 프레임워크 위에서 웹팩 설정을 따로 하지 않�
 - OrbinControls과 거의 흡사하고 커다란 차이점이 있다면, 수직으로 360도 회전이 가능하다. `enableDamping`이 기본적으로 적용이 되어 있다.
 - `controls.update()` 코드를 써주지 않으면 적동이 안 된다.
 
+## FlyControls
+- `controls.update()`값에 인자를 전달해줘야한다. 수업에서는 delta 값을 넣어주었다.
+- 키보드와 마우스의 위치에 따라 카메라가 컨트롤 된다.
+- `rollSpeed`와 `movementSpeed` 값을 조정해 빠르기를 조절할 수 있다.
+- `dragToLook` 불리언 값을 `true`로 하면 마우스포인트를 움직이는 것으로는 움직이지 않고 마우스 좌클릭을 유지한 상태로 드래그해줘야 움직인다. `rollSpeed` 값을 올려줘야 유의미한 움직임이 감지된다. 
+
+## FirstPersonControls
+- `FlyControls` 몇 가지 기능을 추가/수정해서 다시 만든 버전으로 비슷하다.
+- `controls.activeLook` 불리언 값을 false로 두니 마우스를 움직여도 고정이 되어 둘러볼 수 없다.
+- `controls.lookSpeed` 위에 rollSpeed와 동일하다.
+- `controls.autoForward` 불리언 값
+
+## PointerLockControls
+- `controls.update()` 메소드가 없다.
+- `controls.lock()` 메소드가 필요하다. 거기에 더불어 유저의 이벤트가 추가로 필요하다. `addEventListner`를 통해 유저의 클릭 이벤트가 발생했을 때, 해당 메소드가 실행되도로 한다.
+- `controls.domElement === renderer.domElement` 불리언 값을 `true`이다. 콘솔에 찍어보면 canvan 객체가 나온다. 
+- `Pointer Lock API`를 이용한 것이다.
+- controls에 `lock`과 `unlock` 이벤트가 있어서 해당 이벤트가 있을 때 동작을 추가할 수 있다. `controls.lock()` 메소드의 실행상태가 기준이 되는 것 같다.
+
+## DragControls
+- 첫 번째 매개변수 자리에 어떤 매쉬를 드래그 할 것인지 전달해줘야한다. 수업에서 만든 20개의 정사각형 메쉬를 배열에 넣어서 전달해주었다.
+- 직접 구현하려면 굉장히 까다로울 것 같은데, 정육면체를 마우스로 끌어서 움직일 수 있게 만든 기능이다.
+- 내가 드래그하고 있는 메쉬가 어떤 것인지 확인하려면? `dragstart` 이벤트가 발생했을 때 이벤트의 대상을 찍어볼 수 있다. 각각의 매쉬들을 쉽게 파악하기 위해서 `mesh의 이름을 지정`해주었다.
+
+## PointerLockControls + 이동 (마인크래프트 움직임)
+- 모듈로 새 파일을 만들어 키 컨트롤 클래스를 따로 만든다. 수업에서 `KeyController.js`파일을 새로 만들었다. 
+- `클래스`와 `인스턴스` 문법에 대해서 체크하기
+- 배열 안의 원소가 `[KeyW: true, KeyO: 'hi']`이렇게 되는 것도 가능하다. 또한, 자바스크립트 배열은 속성의 이름으로도 접근 가능하다.
+- `delete arr['KeyW']`를 하면 해당 원소는 사라진다.
+- `controls.moveForward()`와 `controls.moveRight()`를 사용해서 키보드 이동이 가능하다. 양수/음수를 통해 뒤와 왼쪽도 표현할 수 있다.
+
+# 7
+## MeshBasicMaterial
+- 원래는 StandardMaterial이었는데 변경하니 입체감이 사라져서 보이는 걸 알 수 있다.
+- 조명에 영향을 받지 않는다. (빛/그림자X) 이 Material 외에 나머지 재질들은 조명이 필요하다.
+- Material 중에 가장 성능이 좋다.
+- 카메라 컨트롤(OrbitControls)을 추가하니 자동으로 `camera.lookAt()`이 적용되었다.
+
+## MeshLambertMateria vs MeshPhongMaterial
